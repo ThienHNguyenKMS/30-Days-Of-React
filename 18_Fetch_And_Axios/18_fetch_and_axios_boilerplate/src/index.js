@@ -1,62 +1,68 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import axios from 'axios'
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import axios from "axios";
 
-const Country = ({ country: { name, flag, population } }) => {
-  return (
-    <div className='country'>
-      <div className='country_flag'>
-        <img src={flag} alt={name} />
-      </div>
-      <h3 className='country_name'>{name.toUpperCase()}</h3>
-      <div class='country_text'>
-        <p>
-          <span>Population: </span>
-          {population}
-        </p>
-      </div>
-    </div>
-  )
-}
+const Cat = ({ cats }) => {
+  var weight =
+    cats
+      .map((cat) =>
+        cat.weight.metric.split("-").reduce(function (a, b) {
+          return +a + +b;
+        })
+      )
+      .reduce((p, c) => p + c, 0) / cats.length;
+  var age =
+    cats
+      .map((cat) =>
+        cat.life_span.split("-").reduce(function (a, b) {
+          return +a + +b;
+        })
+      )
+      .reduce((p, c) => p + c, 0) / cats.length;
+
+  return <div>{weight}, {age}</div>;
+};
+
+const Cat2 = ({ cat: { weight, life_span } }) => {
+  // console.log(weight.metric, life_span);
+  return <div></div>;
+};
 
 class App extends Component {
   state = {
     data: [],
-  }
+  };
 
   componentDidMount() {
-    this.fetchCountryData()
+    this.fetchCountryData();
   }
+
   fetchCountryData = async () => {
-    const url = 'https://restcountries.eu/rest/v2/all'
+    const url = "https://api.thecatapi.com/v1/breeds";
     try {
-      const response = await axios.get(url)
-      const data = await response.data
+      const response = await axios.get(url);
+      const data = await response.data;
       this.setState({
         data,
-      })
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   render() {
     return (
-      <div className='App'>
-        <h1>React Component Life Cycle</h1>
-        <h1>Calling API</h1>
+      <div className="App">
         <div>
-          <p>There are {this.state.data.length} countries in the api</p>
-          <div className='countries-wrapper'>
-            {this.state.data.map((country) => (
-              <Country country={country} />
-            ))}
+          <p>{this.state.data.length}</p>
+          <div>
+            <Cat cats={this.state.data} />
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-const rootElement = document.getElementById('root')
-ReactDOM.render(<App />, rootElement)
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App />, rootElement);

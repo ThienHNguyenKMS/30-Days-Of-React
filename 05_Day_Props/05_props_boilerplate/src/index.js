@@ -1,153 +1,75 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import asabenehImage from './images/asabeneh.jpg'
+import React from "react";
+import ReactDOM from "react-dom";
+import HTMLLogo from "./images/html_logo.png";
+import CSSLogo from "./images/css_logo.png";
+import JSLogo from "./images/js_logo.png";
+import ReactLogo from "./images/react_logo.png";
 
-// Fuction to show month date year
+// EX2.1
+const FELogos = [HTMLLogo, CSSLogo, JSLogo, ReactLogo]
+const Ex21 = ({ logos }) => (
+    logos.map((logo) => <img src={logo} />)
+  );
+  
+/////////////////////////////////////////////
 
-const showDate = (time) => {
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ]
+// EX3.1
+const hexaColor = () => {
+  let str = "0123456789abcdef";
+  let color = "";
+  for (let i = 0; i < 6; i++) {
+    let index = Math.floor(Math.random() * str.length);
+    color += str[index];
+  }
+  return "#" + color;
+};
 
-  const month = months[time.getMonth()].slice(0, 3)
-  const year = time.getFullYear()
-  const date = time.getDate()
-  return ` ${month} ${date}, ${year}`
-}
+const Ex31 = ({ color }) => (
+  <div style={{backgroundColor: color}}>{color}</div>
+);
 
-// Header Component
-const Header = ({
-  data: {
-    welcome,
-    title,
-    subtitle,
-    author: { firstName, lastName },
-    date,
-  },
-}) => {
-  return (
-    <header>
-      <div className='header-wrapper'>
-        <h1>{welcome}</h1>
-        <h2>{title}</h2>
-        <h3>{subtitle}</h3>
-        <p>
-          {firstName} {lastName}
-        </p>
-        <small>{showDate(date)}</small>
-      </div>
-    </header>
-  )
-}
+/////////////////////////////////////////////
 
-// TechList Component
-const TechList = ({ techs }) => {
-  const techList = techs.map((tech) => <li key={tech}>{tech}</li>)
-  return techList
-}
-
-// User Card Component
-const UserCard = ({ user: { firstName, lastName, image } }) => (
-  <div className='user-card'>
-    <img src={image} alt={firstName} />
-    <h2>
-      {firstName}
-      {lastName}
-    </h2>
-  </div>
-)
-
-// A button component
-
-const Button = ({ text, onClick, style }) => (
-  <button style={style} onClick={onClick}>
-    {text}
-  </button>
-)
-
+// EX3.2
 const buttonStyles = {
-  backgroundColor: '#61dbfb',
+  backgroundColor: "#61dbfb",
   padding: 10,
-  border: 'none',
+  border: "none",
   borderRadius: 5,
   margin: 3,
-  cursor: 'pointer',
+  cursor: "pointer",
   fontSize: 18,
-  color: 'white',
-}
+  color: "white",
+};
 
-// Main Component
-const Main = ({ user, techs, greetPeople, handleTime }) => (
-  <main>
-    <div className='main-wrapper'>
-      <p>Prerequisite to get started react.js:</p>
-      <ul>
-        <TechList techs={techs} />
-      </ul>
-      <UserCard user={user} />
-      <Button text='Greet People' onClick={greetPeople} style={buttonStyles} />
-      <Button text='Show Time' onClick={handleTime} style={buttonStyles} />
-    </div>
-  </main>
-)
+const Button = ({ text, style }) => <button style={style}>{text}</button>;
 
-// Footer Component
-const Footer = ({ copyRight }) => (
-  <footer>
-    <div className='footer-wrapper'>
-      <p>Copyright {copyRight.getFullYear()}</p>
-    </div>
-  </footer>
-)
+const techs = ["HTML", "CSS", "Javascript"];
+const formattedTechs = techs.map((tech) => (
+  <Button key={tech} text={tech} style={buttonStyles} />
+));
 
-// The App, or the parent or the container component
-// Functional Component
-const App = () => {
-  const data = {
-    welcome: 'Welcome to 30 Days Of React',
-    title: 'Getting Started React',
-    subtitle: 'JavaScript Library',
-    author: {
-      firstName: 'Asabeneh',
-      lastName: 'Yetayeh',
-    },
-    date: new Date(), // date needs to be formatted to a human readable format
-  }
-  const date = new Date()
-  const techs = ['HTML', 'CSS', 'JavaScript']
-  // copying the author from data object to user variable using spread operator
-  const user = { ...data.author, image: asabenehImage }
+const user = {
+  FirstName: "Hjhj",
+  LastName: "Jhjh",
+};
 
-  const handleTime = () => {
-    alert(showDate(new Date()))
-  }
-  const greetPeople = () => {
-    alert('Welcome to 30 Days Of React Challenge, 2020')
-  }
+const Ex32 = ({ user, skills }) => (
+  <div>
+    {user.FirstName}
+    {user.LastName}
+    {skills}
+  </div>
+);
+////////////////////////////////////////////
 
-  return (
-    <div className='app'>
-      <Header data={data} />
-      <Main
-        user={user}
-        techs={techs}
-        handleTime={handleTime}
-        greetPeople={greetPeople}
-      />
-      <Footer copyRight={date} />
-    </div>
-  )
-}
-const rootElement = document.getElementById('root')
-ReactDOM.render(<App />, rootElement)
+const App = () => (
+  <div>
+    <Ex21 logos={FELogos} />
+    <Ex31 color={hexaColor()} />
+    <Ex32 user={user} skills={formattedTechs} />
+  </div>
+);
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App />, rootElement);
